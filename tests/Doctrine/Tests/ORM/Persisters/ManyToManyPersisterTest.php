@@ -8,12 +8,12 @@
 
 namespace Doctrine\Tests\ORM\Persisters;
 use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\PersistentCollection;
+use Doctrine\ORM\Persisters\Collection\ManyToManyPersister;
 use Doctrine\Tests\Mocks\ConnectionMock;
 use Doctrine\Tests\Models\ManyToManyPersister\ChildClass;
 use Doctrine\Tests\Models\ManyToManyPersister\ParentClass;
 use Doctrine\Tests\OrmTestCase;
-use Doctrine\ORM\Persisters\Collection\ManyToManyPersister;
+
 /**
  * Tests for {@see ManyToManyPersister}
  * @covers Doctrine\ORM\Persisters\Collection\ManyToManyPersister
