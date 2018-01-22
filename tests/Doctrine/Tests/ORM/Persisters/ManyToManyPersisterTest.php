@@ -38,23 +38,22 @@ class ManyToManyPersisterTest extends OrmTestCase {
      */
     public function testDeleteManyToManyCollection() {
         $parent = new ParentClass();
-        $parent->setId(1);
+        $parent->id = 1;
         $child = new ChildClass();
-        $child->setId1(1);
-        $child->setId2(2);
-        $parent->getChildren()->add($child);
+        $child->id1 = 1;
+        $child->id2 = 2;
+        $parent->children->add($child);
         $this->em->persist($parent);
         $this->em->flush();
 
         $childReloaded = $this->em->find(ChildClass::class, ['id1' => 1, 'id2' => 2]);
 
-        $this->persister->delete($childReloaded->getParents());
+        $this->persister->delete($childReloaded->parents);
 
         /** @var ConnectionMock $conn */
         $conn = $this->em->getConnection();
 
         $updates = $conn->getExecuteUpdates();
-
         $lastUpdate = array_pop($updates);
 
         $this->assertEquals('DELETE FROM parent_child WHERE child_id1 = ? AND child_id2 = ?', $lastUpdate['query']);
