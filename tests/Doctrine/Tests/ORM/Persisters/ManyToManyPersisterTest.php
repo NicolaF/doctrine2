@@ -1,12 +1,7 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: nico
- * Date: 19/01/18
- * Time: 16:40
- */
 
 namespace Doctrine\Tests\ORM\Persisters;
+
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Persisters\Collection\ManyToManyPersister;
 use Doctrine\Tests\Mocks\ConnectionMock;
