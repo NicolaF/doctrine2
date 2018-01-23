@@ -6,6 +6,7 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Persisters\Collection\ManyToManyPersister;
 use Doctrine\Tests\Mocks\ConnectionMock;
 use Doctrine\Tests\Models\ManyToManyPersister\ChildClass;
+use Doctrine\Tests\Models\ManyToManyPersister\OtherParentClass;
 use Doctrine\Tests\Models\ManyToManyPersister\ParentClass;
 use Doctrine\Tests\OrmTestCase;
 
@@ -34,14 +35,16 @@ class ManyToManyPersisterTest extends OrmTestCase {
     public function testDeleteManyToManyCollection() {
         $parent = new ParentClass();
         $parent->id = 1;
+        $otherParent = new OtherParentClass();
+        $otherParent->id = 42;
         $child = new ChildClass();
         $child->id1 = 1;
-        $child->id2 = 2;
+        $child->otherParent = $otherParent;
         $parent->children->add($child);
         $this->em->persist($parent);
         $this->em->flush();
 
-        $childReloaded = $this->em->find(ChildClass::class, ['id1' => 1, 'id2' => 2]);
+        $childReloaded = $this->em->find(ChildClass::class, ['id1' => 1, 'otherParent' => $otherParent]);
 
         $this->persister->delete($childReloaded->parents);
 
@@ -52,7 +55,7 @@ class ManyToManyPersisterTest extends OrmTestCase {
         $lastUpdate = array_pop($updates);
 
         $this->assertEquals('DELETE FROM parent_child WHERE child_id1 = ? AND child_id2 = ?', $lastUpdate['query']);
-        $this->assertEquals([1,2], $lastUpdate['params']);
+        $this->assertEquals([1,42], $lastUpdate['params']);
 
     }
 

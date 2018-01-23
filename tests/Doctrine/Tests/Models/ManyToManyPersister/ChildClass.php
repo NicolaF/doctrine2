@@ -20,19 +20,20 @@ class ChildClass {
     public $id1;
 
     /**
-     * @var integer
-     * @Column(name="id2", type="integer")
+     * @var OtherParentClass
      * @Id()
+     * @ManyToOne(targetEntity="Doctrine\Tests\Models\ManyToManyPersister\OtherParentClass", cascade={"persist"})
+     * @JoinColumn(name="other_parent_id", referencedColumnName="id")
      *
      */
-    public $id2;
+    public $otherParent;
 
     /**
      * @var Collection|ParentClass[]
      * @ManyToMany(targetEntity="Doctrine\Tests\Models\ManyToManyPersister\ParentClass", inversedBy="children")
      * @JoinTable(name="parent_child", joinColumns={
      *     @JoinColumn(name="child_id1", referencedColumnName="id1"),
-     *     @JoinColumn(name="child_id2", referencedColumnName="id2")
+     *     @JoinColumn(name="child_id2", referencedColumnName="other_parent_id")
      * }, inverseJoinColumns={
      *     @JoinColumn(name="parent_id", referencedColumnName="id")
      * })
